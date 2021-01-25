@@ -1,12 +1,23 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-window.addEventListener('DOMContentLoaded', () => {
-  const replaceText = (selector, text) => {
-    const element = document.getElementById(selector)
-    if (element) element.innerText = text
-  }
 
-  for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`${type}-version`, process.versions[type])
-  }
+const {ipcRenderer} = require('electron');
+
+window.addEventListener('DOMContentLoaded', () => {
+	const colorQuestion = document.getElementById('colorQuestion');
+	const foodQuestion = document.getElementById('foodQuestion');
+	const animalQuestion = document.getElementById('animalQuestion');
+
+	colorQuestion.addEventListener('click', function(){
+		ipcRenderer.send("questionClicked", "colorQuestion");
+	});
+
+	foodQuestion.addEventListener('click', function(){
+		ipcRenderer.send("questionClicked", "foodQuestion");
+	});
+
+	animalQuestion.addEventListener('click', function(){
+		ipcRenderer.send("questionClicked", "animalQuestion");
+	});
 })
+
